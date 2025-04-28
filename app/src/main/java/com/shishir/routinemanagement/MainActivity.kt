@@ -1,9 +1,13 @@
 package com.shishir.routinemanagement
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.shishir.routinemanagement.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,10 +19,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        auth = FirebaseAuth.getInstance()
-
-
-
+        Handler(Looper.getMainLooper()).postDelayed({
+            startActivity(Intent(this, TeacherLoginActivity::class.java))
+            finish()
+        }, 2000)
     }
 
 

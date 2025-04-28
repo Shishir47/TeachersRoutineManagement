@@ -57,7 +57,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
 
-            <!-- Dynamic rows will be added here -->
 
         </TableLayout>
     </ScrollView>

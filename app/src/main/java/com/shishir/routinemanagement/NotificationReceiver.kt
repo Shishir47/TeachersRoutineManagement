@@ -14,31 +14,41 @@ import androidx.core.app.NotificationManagerCompat
 
 class NotificationReceiver : BroadcastReceiver() {
 
+    companion object {
+        const val CHANNEL_ID = "class_channel"
+    }
+
     override fun onReceive(context: Context, intent: Intent) {
         val courseName = intent.getStringExtra("courseName") ?: "Class Reminder"
 
+        createNotificationChannel(context)
+
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_trm) // Temporary testing icon
+            .setContentTitle("Upcoming Class!")
+            .setContentText("You have $courseName soon.")
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .build()
+
         val notificationManager = NotificationManagerCompat.from(context)
 
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED ||
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+
+            notificationManager.notify(courseName.hashCode(), notification) // Use a safer ID
+        }
+    }
+
+    private fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                "class_channel",
+                CHANNEL_ID,
                 "Class Notifications",
                 NotificationManager.IMPORTANCE_HIGH
             )
             val manager = context.getSystemService(NotificationManager::class.java)
-            manager.createNotificationChannel(channel)
-        }
-
-        val notification = NotificationCompat.Builder(context, "class_channel")
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("Upcoming Class!")
-            .setContentText("You have $courseName soon.")
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .build()
-
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED ||
-            Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            notificationManager.notify(System.currentTimeMillis().toInt(), notification)
+            manager?.createNotificationChannel(channel)
         }
     }
 }

@@ -36,8 +36,8 @@ class EditClassActivity : AppCompatActivity() {
             binding.etRoomNumber.setText(intent.getStringExtra("roomNumber"))
             binding.etTime.setText(intent.getStringExtra("time"))
 
-            val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, days)
+            val days = listOf("Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+            val adapter = ArrayAdapter(this, R.layout.spinner_item, days)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spinnerDay.adapter = adapter
 

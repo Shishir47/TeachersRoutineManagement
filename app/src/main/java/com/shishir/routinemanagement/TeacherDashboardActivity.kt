@@ -1,5 +1,7 @@
 package com.shishir.routinemanagement
 
+import android.app.PendingIntent
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.shishir.routinemanagement.databinding.ActivityTeacherDashboardBinding
 import okhttp3.Call
 import okhttp3.Callback
@@ -17,6 +20,7 @@ import okhttp3.Request
 import okhttp3.Response
 import okio.IOException
 import org.json.JSONObject
+import java.util.Calendar
 
 class TeacherDashboardActivity : AppCompatActivity() {
 
@@ -48,8 +52,95 @@ class TeacherDashboardActivity : AppCompatActivity() {
         binding.logout.setOnClickListener {
             showLogoutConfirmationDialog()
         }
+        fetchClassesAndScheduleNotifications()
 
     }
+
+    private fun fetchClassesAndScheduleNotifications() {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("classes")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val courseName = document.getString("courseName") ?: continue
+                    val day = document.getString("day") ?: continue
+                    val time = document.getString("time") ?: continue
+
+                    val triggerTimeMillis = calculateNextTriggerTime(day, time)
+                    if (triggerTimeMillis != null) {
+                        scheduleNotification(courseName, triggerTimeMillis)
+                    }
+                }
+            }
+    }
+    fun scheduleNotification(courseName: String, classTimeMillis: Long) {
+        val intent = Intent(this, NotificationReceiver::class.java).apply {
+            putExtra("courseName", courseName)
+        }
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            (courseName + classTimeMillis).hashCode(), // Unique ID
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as android.app.AlarmManager
+
+        // Repeat every 7 days (1 week)
+        val intervalWeekMillis = 7 * 24 * 60 * 60 * 1000L
+
+        alarmManager.setRepeating(
+            android.app.AlarmManager.RTC_WAKEUP,
+            classTimeMillis - (15 * 60 * 1000), // 15 mins before class
+            intervalWeekMillis,
+            pendingIntent
+        )
+    }
+
+    private fun calculateNextTriggerTime(day: String, time: String): Long? {
+        val calendar = Calendar.getInstance()
+
+        val daysOfWeek = mapOf(
+            "Sunday" to Calendar.SUNDAY,
+            "Monday" to Calendar.MONDAY,
+            "Tuesday" to Calendar.TUESDAY,
+            "Wednesday" to Calendar.WEDNESDAY,
+            "Thursday" to Calendar.THURSDAY,
+            "Friday" to Calendar.FRIDAY,
+            "Saturday" to Calendar.SATURDAY
+        )
+
+        val targetDay = daysOfWeek[day] ?: return null
+
+        // Parse time
+        val timeParts = time.split(":", " ")
+        var hour = timeParts[0].toInt()
+        val minute = timeParts[1].toInt()
+        val amPm = timeParts[2]
+
+        if (amPm == "PM" && hour != 12) {
+            hour += 12
+        } else if (amPm == "AM" && hour == 12) {
+            hour = 0
+        }
+
+        // Set target day and time
+        calendar.set(Calendar.DAY_OF_WEEK, targetDay)
+        calendar.set(Calendar.HOUR_OF_DAY, hour)
+        calendar.set(Calendar.MINUTE, minute)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+
+        // If the scheduled time is before now, set for next week
+        if (calendar.timeInMillis <= System.currentTimeMillis()) {
+            calendar.add(Calendar.WEEK_OF_YEAR, 1)
+        }
+
+        return calendar.timeInMillis
+    }
+
+
     private fun showLogoutConfirmationDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Logout Confirmation")
@@ -89,7 +180,7 @@ class TeacherDashboardActivity : AppCompatActivity() {
 
     private fun checkForUpdates() {
         val url =
-            "https://raw.githubusercontent.com/Shishir47/Blood_Donation_App/master/version.json"
+            "https://raw.githubusercontent.com/Shishir47/TeachersRoutineManagement/master/version.json"
 
         val request = Request.Builder().url(url).build()
         client.newCall(request).enqueue(     object : Callback {

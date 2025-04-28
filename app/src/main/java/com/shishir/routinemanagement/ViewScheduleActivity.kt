@@ -1,6 +1,7 @@
 package com.shishir.routinemanagement
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -27,7 +28,10 @@ class ViewScheduleActivity : AppCompatActivity() {
             finish()
         }
         displaySchedule()
+
     }
+
+
 
     private fun displaySchedule() {
         db.collection("classes")
@@ -57,7 +61,7 @@ class ViewScheduleActivity : AppCompatActivity() {
 
                         val courseTextLayoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.7f) // Increased width
                         val textLayoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.8f)
-                        val dayTextLayoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f) // Slightly increased
+                        val dayTextLayoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.4f) // Slightly increased
                         val iconLayoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.7f)
 
                         val courseText = TextView(this).apply {
@@ -66,6 +70,7 @@ class ViewScheduleActivity : AppCompatActivity() {
                             textSize = 14f
                             textAlignment= View.TEXT_ALIGNMENT_CENTER
                             layoutParams = courseTextLayoutParams
+                            setTextColor(Color.BLACK)
                         }
 
                         val semesterText = TextView(this).apply {
@@ -74,6 +79,7 @@ class ViewScheduleActivity : AppCompatActivity() {
                             textSize = 14f
                             textAlignment= View.TEXT_ALIGNMENT_CENTER
                             layoutParams = textLayoutParams
+                            setTextColor(Color.BLACK)
                         }
 
                         val roomNumberText = TextView(this).apply {
@@ -82,6 +88,7 @@ class ViewScheduleActivity : AppCompatActivity() {
                             textSize = 14f
                             layoutParams = textLayoutParams
                             textAlignment= View.TEXT_ALIGNMENT_CENTER
+                            setTextColor(Color.BLACK)
                         }
 
                         val dayText = TextView(this).apply {
@@ -90,6 +97,7 @@ class ViewScheduleActivity : AppCompatActivity() {
                             textSize = 14f
                             layoutParams = courseTextLayoutParams
                             textAlignment= View.TEXT_ALIGNMENT_CENTER
+                            setTextColor(Color.BLACK)
                         }
 
                         val timeText = TextView(this).apply {
@@ -98,8 +106,9 @@ class ViewScheduleActivity : AppCompatActivity() {
                             textSize = 14f
                             layoutParams = dayTextLayoutParams
                             textAlignment= View.TEXT_ALIGNMENT_CENTER
+                            setTextColor(Color.BLACK)
                         }
-                        
+
                         val editIcon = ImageView(this).apply {
                             setImageResource(R.drawable.ic_edit)
                             background = null

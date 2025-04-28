@@ -12,7 +12,7 @@
         android:gravity="center"
         android:padding="8dp">
 
-        <!-- Course Name EditText -->
+
         <EditText
             android:id="@+id/etCourseName"
             android:hint="Course Name"
@@ -22,9 +22,8 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/edittext_style"
             android:textSize="16sp"
-            android:textColor="#333"/>
+            android:textColor="#000000"/>
 
-        <!-- Course Code EditText -->
         <EditText
             android:id="@+id/etCourseCode"
             android:hint="Course Code"
@@ -34,9 +33,8 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/edittext_style"
             android:textSize="16sp"
-            android:textColor="#333"/>
+            android:textColor="#000000"/>
 
-        <!-- Semester EditText -->
         <EditText
             android:id="@+id/etSemester"
             android:hint="Semester (1st, 2nd, etc)"
@@ -46,9 +44,8 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/edittext_style"
             android:textSize="16sp"
-            android:textColor="#333"/>
+            android:textColor="#000000"/>
 
-        <!-- Section EditText -->
         <EditText
             android:id="@+id/etSection"
             android:hint="Section (A, B, etc)"
@@ -58,9 +55,8 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/edittext_style"
             android:textSize="16sp"
-            android:textColor="#333"/>
+            android:textColor="#000000"/>
 
-        <!-- Room Number EditText -->
         <EditText
             android:id="@+id/etRoomNumber"
             android:hint="Room Number"
@@ -70,18 +66,16 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/edittext_style"
             android:textSize="16sp"
-            android:textColor="#333"/>
+            android:textColor="#000000"/>
 
-        <!-- Day Spinner -->
         <Spinner
             android:id="@+id/spinnerDay"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginBottom="12dp"
-            android:background="@drawable/spinner_style"/>
+            android:background="@drawable/spinner_style" />
 
-        <!-- Time Picker Button -->
-        <!-- Class Time EditText (Updated) -->
+
         <EditText
             android:id="@+id/etTime"
             android:hint="Class Time"
@@ -91,12 +85,10 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/edittext_style"
             android:textSize="16sp"
-            android:textColor="#333"
+            android:textColor="#000000"
             android:focusable="false"
             android:clickable="true" />
 
-
-        <!-- Selected Time TextView -->
         <TextView
             android:id="@+id/tvSelectedTime"
             android:layout_width="match_parent"
@@ -104,7 +96,7 @@
             android:layout_marginTop="8dp"
             android:text="No time selected"
             android:textSize="16sp"
-            android:textColor="#333" />
+            android:textColor="#000000"/>
 
         <Button
             android:id="@+id/btnAddClass"

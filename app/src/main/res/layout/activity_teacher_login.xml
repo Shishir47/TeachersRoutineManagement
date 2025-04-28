@@ -18,8 +18,8 @@
         <EditText
             android:id="@+id/etEmail"
             android:hint="Email"
-            android:textColor="#333"
-            android:textColorHint="#888"
+            android:textColor="#000000"
+            android:textColorHint="#908F8F"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
@@ -31,8 +31,8 @@
         <EditText
             android:id="@+id/etPassword"
             android:hint="Password"
-            android:textColor="#333"
-            android:textColorHint="#888"
+            android:textColor="#000000"
+            android:textColorHint="#908F8F"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
