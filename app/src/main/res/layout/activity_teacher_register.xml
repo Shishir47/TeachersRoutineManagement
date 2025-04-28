@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="#f0f0f0">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@drawable/rounded_background"
+        android:elevation="4dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center">
+
+        <EditText
+            android:id="@+id/etName"
+            android:hint="Full Name"
+            android:textColor="#333"
+            android:textColorHint="#888"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/rounded_input"
+            android:layout_marginBottom="16dp"
+            android:textSize="16sp"
+            android:inputType="textPersonName"/>
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:hint="Email"
+            android:textColor="#333"
+            android:textColorHint="#888"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/rounded_input"
+            android:layout_marginBottom="16dp"
+            android:textSize="16sp"
+            android:inputType="textEmailAddress"/>
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:hint="Phone Number"
+            android:textColor="#333"
+            android:textColorHint="#888"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/rounded_input"
+            android:layout_marginBottom="16dp"
+            android:textSize="16sp"
+            android:inputType="phone"/>
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:hint="Password"
+            android:textColor="#333"
+            android:textColorHint="#888"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/rounded_input"
+            android:layout_marginBottom="24dp"
+            android:textSize="16sp"
+            android:inputType="textPassword"/>
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:text="Register"
+            android:textColor="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#1E88E5"
+            android:textSize="16sp"
+            android:padding="14dp"
+            android:layout_marginBottom="8dp"/>
+
+        <Button
+            android:id="@+id/btnGoToLogin"
+            android:text="Already have an account? Login"
+            android:textColor="#1E88E5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="14dp"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+</ScrollView>
