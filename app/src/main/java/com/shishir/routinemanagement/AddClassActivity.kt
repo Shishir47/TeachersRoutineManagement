@@ -37,6 +37,9 @@ class AddClassActivity : AppCompatActivity() {
         binding.btnAddClass.setOnClickListener {
             addClass()
         }
+        binding.cancel.setOnClickListener {
+            goToPrevious()
+        }
     }
 
     private fun showTimePickerDialog() {

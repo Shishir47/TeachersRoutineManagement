@@ -37,23 +37,20 @@ class TeacherDashboardActivity : AppCompatActivity() {
 
         binding.btnAddClass.setOnClickListener {
             startActivity(Intent(this, AddClassActivity::class.java))
-            finish()
         }
 
         binding.btnViewSchedule.setOnClickListener {
             startActivity(Intent(this, ViewScheduleActivity::class.java))
-            finish()
         }
 
         binding.btnTodayClass.setOnClickListener {
             startActivity(Intent(this, TodayClassActivity::class.java))
-            finish()
         }
         binding.logout.setOnClickListener {
             showLogoutConfirmationDialog()
         }
         fetchClassesAndScheduleNotifications()
-
+        checkForUpdates()
     }
 
     private fun fetchClassesAndScheduleNotifications() {
