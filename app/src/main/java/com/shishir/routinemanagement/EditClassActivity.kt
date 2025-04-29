@@ -98,8 +98,8 @@ class EditClassActivity : AppCompatActivity() {
         }
     }
 
-    private fun goToPrevious(){
-        val intent= Intent(this, ViewScheduleActivity::class.java)
+    private fun goToPrevious() {
+        val intent = Intent(this, ViewScheduleActivity::class.java)
         startActivity(intent)
         finish()
     }

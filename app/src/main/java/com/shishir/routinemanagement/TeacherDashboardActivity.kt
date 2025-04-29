@@ -58,7 +58,11 @@ class TeacherDashboardActivity : AppCompatActivity() {
 
     private fun fetchClassesAndScheduleNotifications() {
         val db = FirebaseFirestore.getInstance()
+        val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email ?: return
+
+        // Fetch classes filtered by the teacher's email
         db.collection("classes")
+            .whereEqualTo("teacherEmail", currentUserEmail)  // Filter by teacher's email
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
@@ -73,6 +77,7 @@ class TeacherDashboardActivity : AppCompatActivity() {
                 }
             }
     }
+
     fun scheduleNotification(courseName: String, classTimeMillis: Long) {
         val intent = Intent(this, NotificationReceiver::class.java).apply {
             putExtra("courseName", courseName)

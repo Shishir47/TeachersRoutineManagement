@@ -3,6 +3,7 @@ package com.shishir.routinemanagement
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -23,20 +24,34 @@ class NotificationReceiver : BroadcastReceiver() {
 
         createNotificationChannel(context)
 
+        val activityIntent = Intent(context, ViewScheduleActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            activityIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_trm) // Temporary testing icon
+            .setSmallIcon(R.drawable.ic_trm)
             .setContentTitle("Upcoming Class!")
             .setContentText("You have $courseName soon.")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
             .build()
 
         val notificationManager = NotificationManagerCompat.from(context)
 
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED ||
-            Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-
-            notificationManager.notify(courseName.hashCode(), notification) // Use a safer ID
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+        ) {
+            notificationManager.notify(courseName.hashCode(), notification)
         }
     }
 

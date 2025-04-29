@@ -1,9 +1,9 @@
-package com.shishir.routinemanagement
-
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import com.shishir.routinemanagement.NotificationReceiver
 
 object NotificationScheduler {
 
@@ -14,9 +14,13 @@ object NotificationScheduler {
 
         val pendingIntent = PendingIntent.getBroadcast(
             context,
-            courseName.hashCode(), // Unique request code per course
+            courseName.hashCode(),
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
         )
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

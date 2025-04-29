@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shishir.routinemanagement.databinding.ActivityAddClassBinding
 import java.util.Calendar
@@ -15,6 +16,7 @@ class AddClassActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddClassBinding
     private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
     private var selectedHour = 0
     private var selectedMinute = 0
 
@@ -73,9 +75,8 @@ class AddClassActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun goToPrevious(){
-        val intent= Intent(this, ViewScheduleActivity::class.java)
+    private fun goToPrevious() {
+        val intent = Intent(this, ViewScheduleActivity::class.java)
         startActivity(intent)
         finish()
     }
@@ -94,6 +95,13 @@ class AddClassActivity : AppCompatActivity() {
             return
         }
 
+        val teacherEmail = auth.currentUser?.email // Get current user's email
+
+        if (teacherEmail == null) {
+            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         db.collection("classes")
             .whereEqualTo("day", day)
             .whereEqualTo("time", time)
@@ -109,7 +117,8 @@ class AddClassActivity : AppCompatActivity() {
                         "section" to section,
                         "roomNumber" to roomNumber,
                         "day" to day,
-                        "time" to time
+                        "time" to time,
+                        "teacherEmail" to teacherEmail
                     )
 
                     db.collection("classes")

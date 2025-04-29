@@ -8,6 +8,7 @@ import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shishir.routinemanagement.databinding.ActivityTodayClassBinding
 import java.text.SimpleDateFormat
@@ -19,10 +20,14 @@ class TodayClassActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTodayClassBinding
     private val db = FirebaseFirestore.getInstance()
 
+    private lateinit var teacherEmail: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTodayClassBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        teacherEmail = FirebaseAuth.getInstance().currentUser?.email.toString()
 
         binding.ivBack.setOnClickListener {
             val intent = Intent(this, TeacherDashboardActivity::class.java)
@@ -34,10 +39,16 @@ class TodayClassActivity : AppCompatActivity() {
     }
 
     private fun displayTodayClasses() {
+        if (teacherEmail.isEmpty()) {
+            Toast.makeText(this, "Teacher email is not provided.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val dayOfWeek = SimpleDateFormat("EEEE", Locale.getDefault()).format(Date())
 
         db.collection("classes")
             .whereEqualTo("day", dayOfWeek)
+            .whereEqualTo("teacherEmail", teacherEmail)
             .get()
             .addOnSuccessListener { documents ->
                 if (documents.isEmpty) {
