@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shishir.routinemanagement.databinding.ActivityEditClassBinding
 import java.util.Calendar
@@ -112,8 +113,10 @@ class EditClassActivity : AppCompatActivity() {
         val roomNumber = binding.etRoomNumber.text.toString()
         val day = binding.spinnerDay.selectedItem.toString()
         val time = binding.etTime.text.toString()
+        val teacherEmail = FirebaseAuth.getInstance().currentUser?.email ?: ""
 
-        if (courseName.isEmpty() || courseCode.isEmpty() || semester.isEmpty() || section.isEmpty() || roomNumber.isEmpty() || time.isEmpty()) {
+        if (courseName.isEmpty() || courseCode.isEmpty() || semester.isEmpty() ||
+            section.isEmpty() || roomNumber.isEmpty() || time.isEmpty()) {
             Toast.makeText(this, "All fields are required.", Toast.LENGTH_SHORT).show()
             return
         }
@@ -125,7 +128,8 @@ class EditClassActivity : AppCompatActivity() {
             "section" to section,
             "roomNumber" to roomNumber,
             "day" to day,
-            "time" to time
+            "time" to time,
+            "teacherEmail" to teacherEmail
         )
 
         db.collection("classes").document(documentId)
@@ -149,4 +153,5 @@ class EditClassActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error accessing the class details.", Toast.LENGTH_SHORT).show()
             }
     }
+
 }
